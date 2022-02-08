@@ -1,0 +1,11 @@
+package recommendersystem.movierecommender.controllers;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class TemplateRequest {
+    private String name;
+    private String body;
+}

@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/recommender_system_db
+    username: bishoy
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
