@@ -1,28 +1,30 @@
 package recommendersystem.movierecommender.controllers;
 
-import recommendersystem.movierecommender.mappers.HomeMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/templates")
+@RequestMapping("/movies")
 @Slf4j
+@EnableAsync
 public class HomeController {
 
-    private HomeMapper homeMapper;
+    private MovieService movieService;
 
     @Autowired
-    public HomeController(HomeMapper homeMapper) {
-        this.homeMapper = homeMapper;
+    public HomeController(MovieService movieService) {
+        this.movieService = movieService;
     }
 
     @PostMapping
-    ResponseEntity<TemplateResponse> createTemplate(@RequestBody TemplateRequest request) {
-        return ResponseEntity.ok(homeMapper.requestToResponse(request));
+    @SneakyThrows
+    void createTemplate(@RequestBody TemplateRequest request) {
+        movieService.getAllMoviesImages();
     }
 }

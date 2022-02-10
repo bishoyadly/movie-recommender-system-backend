@@ -4,5 +4,8 @@ spring:
     username: bishoy
     password: 12345
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 120000
+      maximum-pool-size: 50
   jpa:
     show-sql: true
