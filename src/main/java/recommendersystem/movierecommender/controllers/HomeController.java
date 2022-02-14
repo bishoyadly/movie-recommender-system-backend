@@ -24,7 +24,7 @@ public class HomeController {
 
     @PostMapping
     @SneakyThrows
-    void createTemplate(@RequestBody TemplateRequest request) {
+    void prepareMoviesData(@RequestBody TemplateRequest request) {
         movieService.getAllMoviesImages();
     }
 }
