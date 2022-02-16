@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "movies_metadata")
@@ -29,7 +30,7 @@ public class MoviesMetadatum {
 
     @Column(name = "id")
     @Id
-    private Integer id;
+    private UUID id;
 
     @Column(name = "imdb_id")
     private String imdbId;

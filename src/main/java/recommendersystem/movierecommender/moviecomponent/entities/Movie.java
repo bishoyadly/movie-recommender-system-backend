@@ -13,7 +13,7 @@ public class Movie {
     private UUID id;
     private String imdbID;
     private String title;
-    List<Genres> genresList;
+    List<Genre> genresList;
     String imageUrl;
     Float rating;
     Integer ratingsCount;

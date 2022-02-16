@@ -25,6 +25,6 @@ public class HomeController {
     @PostMapping
     @SneakyThrows
     void prepareMoviesData(@RequestBody TemplateRequest request) {
-        movieService.getAllMoviesImages();
+        movieService.updateMovies(request.getMovieId());
     }
 }

@@ -2,7 +2,7 @@ package recommendersystem.movierecommender.moviecomponent.usecases;
 
 import lombok.Getter;
 import lombok.Setter;
-import recommendersystem.movierecommender.moviecomponent.entities.Genres;
+import recommendersystem.movierecommender.moviecomponent.entities.Genre;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +13,7 @@ public class MovieResponse {
     private UUID id;
     private String imdbID;
     private String title;
-    List<Genres> genresList;
+    List<Genre> genresList;
     String imageUrl;
     Float rating;
     Integer ratingsCount;

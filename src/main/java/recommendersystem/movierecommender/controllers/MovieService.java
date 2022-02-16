@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import recommendersystem.movierecommender.entities.MoviesMetadatum;
 import recommendersystem.movierecommender.entities.MoviesMetadatumRepo;
 
+import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Slf4j
@@ -63,5 +66,26 @@ public class MovieService {
         String imageUrl = doc.select("[data-testid=\"hero-media__poster\"] img").get(0).attributes().get("src");
         log.info("image url {}", imageUrl);
         return imageUrl;
+    }
+
+    @SneakyThrows
+    @Transactional
+    void updateMovies(UUID movieId) {
+        AtomicInteger counter = new AtomicInteger(0);
+        metadatumRepo.findAll().forEach(moviesMetadatum -> {
+            taskExecutor.submit(() -> {
+                moviesMetadatum.setProductionCountries(correctJson(moviesMetadatum.getProductionCountries()));
+                moviesMetadatum.setProductionCompanies(correctJson(moviesMetadatum.getProductionCompanies()));
+                moviesMetadatum.setGenres(correctJson(moviesMetadatum.getGenres()));
+                moviesMetadatum.setSpokenLanguages(correctJson(moviesMetadatum.getSpokenLanguages()));
+                metadatumRepo.save(moviesMetadatum);
+                log.info("record {} updated", counter.addAndGet(1));
+            });
+        });
+        log.info("background jobs scheduled");
+    }
+
+    private String correctJson(String json) {
+        return json.replaceAll("'", "\"");
     }
 }

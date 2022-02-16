@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import recommendersystem.movierecommender.moviecomponent.entities.Genres;
+import recommendersystem.movierecommender.moviecomponent.entities.Genre;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 
 import java.util.List;
@@ -31,7 +31,7 @@ class MovieUseCaseInteractorTest {
         movie.setId(movieId);
         movie.setImdbID("imdb-id");
         movie.setTitle("movie-title");
-        movie.setGenresList(List.of(Genres.ACTION, Genres.COMEDY));
+        movie.setGenresList(List.of(Genre.ACTION, Genre.COMEDY));
         movie.setImageUrl("image-url");
         movie.setRating(Float.valueOf("4.7"));
         movie.setRatingsCount(1);
@@ -48,7 +48,7 @@ class MovieUseCaseInteractorTest {
         response.setId(movieId);
         response.setImdbID("imdb-id");
         response.setTitle("movie-title");
-        response.setGenresList(List.of(Genres.ACTION, Genres.COMEDY));
+        response.setGenresList(List.of(Genre.ACTION, Genre.COMEDY));
         response.setImageUrl("image-url");
         response.setRating(Float.valueOf("4.7"));
         response.setRatingsCount(1);
