@@ -9,3 +9,8 @@ spring:
       maximum-pool-size: 50
   jpa:
     show-sql: true
+
+springdoc:
+  swagger-ui:
+    path: /
+    url: /movie-api.yaml

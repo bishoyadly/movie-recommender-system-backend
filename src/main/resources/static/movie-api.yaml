@@ -1,0 +1,132 @@
+openapi: 3.0.1
+info:
+  title: Movie API
+  description: 'Movie API'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://{domainName}:{port}/{basePath}
+    description: localhost
+    variables:
+      domainName:
+        enum:
+          - 'localhost'
+        default: 'localhost'
+      port:
+        enum:
+          - '8080'
+        default: '8080'
+      basePath:
+        enum:
+          - 'recommendersystem/api/'
+        default: 'recommendersystem/api/'
+tags:
+  - name: Movie
+    description: Everything about your Pets
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /movies/{movieId}:
+    get:
+      tags:
+        - Movie
+      summary: Get Movie By Id
+      operationId: getMovieById
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        imdbID:
+          type: string
+        title:
+          type: string
+        genresList:
+          type: array
+          items:
+            properties:
+              Genre:
+                $ref: '#/components/schemas/Genre'
+          example: [ 'ACTION','COMEDY' ]
+        imageUrl:
+          type: string
+          example: 'http://movie-image-url.jpg'
+        rating:
+          type: integer
+          format: int64
+          example: 8.7
+        ratingsCount:
+          type: integer
+          example: 100
+        overview:
+          type: string
+          example: 'movie overview'
+        originalLanguage:
+          type: string
+          example: 'english'
+        releaseDate:
+          type: string
+          example: '10-10-2010'
+        productionCountries:
+          type: array
+          items:
+            type: string
+          example: [ 'USA','France' ]
+        productionCompanies:
+          type: array
+          items:
+            type: string
+          example: [ 'Marvel','Disney' ]
+
+    Genre:
+      type: string
+      enum:
+        - ACTION
+        - ANIMATION
+        - ADVENTURE
+        - COMEDY
+        - CRIME
+        - DRAMA
+        - EXPERIMENTAL
+        - FANTASY
+        - HISTORICAL
+        - HISTORY
+        - HORROR
+        - ROMANCE
+        - SCIENCE_FICTION
+        - THRILLER
+        - WESTERN
+        - WAR
+        - DOCUMENTARY
+        - MUSIC
+        - MYSTERY
+        - FAMILY
+        - OTHER
+
