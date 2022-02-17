@@ -1,4 +1,4 @@
-package recommendersystem.movierecommender.entities;
+package recommendersystem.movierecommender.moviedatapreparation;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

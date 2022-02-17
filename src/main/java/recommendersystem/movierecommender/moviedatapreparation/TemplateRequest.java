@@ -1,4 +1,4 @@
-package recommendersystem.movierecommender.controllers;
+package recommendersystem.movierecommender.moviedatapreparation;
 
 import lombok.Getter;
 import lombok.Setter;

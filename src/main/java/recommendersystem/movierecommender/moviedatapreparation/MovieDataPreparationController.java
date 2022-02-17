@@ -1,4 +1,4 @@
-package recommendersystem.movierecommender.controllers;
+package recommendersystem.movierecommender.moviedatapreparation;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/movies")
 @Slf4j
 @EnableAsync
-public class HomeController {
+public class MovieDataPreparationController {
 
-    private MovieService movieService;
+    private MovieDataPreparationService movieDataPreparationService;
 
     @Autowired
-    public HomeController(MovieService movieService) {
-        this.movieService = movieService;
+    public MovieDataPreparationController(MovieDataPreparationService movieDataPreparationService) {
+        this.movieDataPreparationService = movieDataPreparationService;
     }
 
     @PostMapping
     @SneakyThrows
     void prepareMoviesData(@RequestBody TemplateRequest request) {
-        movieService.updateMovies(request.getMovieId());
+        movieDataPreparationService.updateMovies(request.getMovieId());
     }
 }

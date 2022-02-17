@@ -1,4 +1,4 @@
-package recommendersystem.movierecommender.controllers;
+package recommendersystem.movierecommender.moviedatapreparation;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +7,6 @@ import org.jsoup.nodes.Document;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-import recommendersystem.movierecommender.entities.MoviesMetadatum;
-import recommendersystem.movierecommender.entities.MoviesMetadatumRepo;
 
 import javax.transaction.Transactional;
 import java.util.LinkedList;
@@ -19,11 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Slf4j
-public class MovieService {
+public class MovieDataPreparationService {
     private MoviesMetadatumRepo metadatumRepo;
     private ThreadPoolTaskExecutor taskExecutor;
 
-    public MovieService(MoviesMetadatumRepo metadatumRepo, ThreadPoolTaskExecutor taskExecutor) {
+    public MovieDataPreparationService(MoviesMetadatumRepo metadatumRepo, ThreadPoolTaskExecutor taskExecutor) {
         this.metadatumRepo = metadatumRepo;
         this.taskExecutor = taskExecutor;
         taskExecutor.setCorePoolSize(200);
