@@ -19,14 +19,18 @@ public class MovieUseCaseInteractor implements MovieInputBoundary {
 
     @Override
     public Object getMovieById(UUID movieId) {
-        if (notValidId(movieId)) return presentBadRequestErrorResponse();
-        else return processGetMovieRequest(movieId);
+        if (notValidId(movieId))
+            return presentBadRequestErrorResponse();
+        else
+            return processGetMovieRequest(movieId);
     }
 
     private Object processGetMovieRequest(UUID movieId) {
         Movie movie = movieDataAccess.getMovieById(movieId);
-        if (notValidId(movie.getId())) return presentNotFoundErrorResponse();
-        else return presentMovieSuccessResponse(movie);
+        if (notValidId(movie.getId()))
+            return presentNotFoundErrorResponse();
+        else
+            return presentMovieSuccessResponse(movie);
     }
 
     private boolean notValidId(UUID movieId) {
