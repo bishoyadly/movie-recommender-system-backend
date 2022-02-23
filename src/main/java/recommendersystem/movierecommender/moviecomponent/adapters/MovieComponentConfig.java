@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import recommendersystem.movierecommender.moviecomponent.usecases.*;
 
 @Configuration
-public class MovieComponentConfig {
+class MovieComponentConfig {
 
     @Bean(name = "movieInputBoundary")
     MovieInputBoundary movieInputBoundary(MovieApiPresenter movieApiPresenter, MoviePostgresDataAccess moviePostgresDataAccess) {

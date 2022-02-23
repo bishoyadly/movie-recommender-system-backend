@@ -6,10 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import recommendersystem.movierecommender.moviecomponent.entities.Genre;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,23 +23,6 @@ class MovieUseCaseInteractorTest {
     MovieDataAccess movieDataAccess;
 
     private MovieInputBoundary movieInputBoundary;
-
-    Movie buildMovie(UUID movieId) {
-        Movie movie = new Movie();
-        movie.setId(movieId);
-        movie.setImdbID("imdb-id");
-        movie.setTitle("movie-title");
-        movie.setGenresList(List.of(Genre.ACTION, Genre.COMEDY));
-        movie.setImageUrl("image-url");
-        movie.setRating(Float.valueOf("4.7"));
-        movie.setRatingsCount(1);
-        movie.setOverview("overview");
-        movie.setOriginalLanguage("english");
-        movie.setReleaseDate("2020-10-29");
-        movie.setProductionCountries(List.of("USA", "China"));
-        movie.setProductionCompanies(List.of("Marvel", "Disney"));
-        return movie;
-    }
 
     void assertMovieResponse(MovieOutputData expectedResponse, MovieOutputData actualResponse) {
         ArgumentCaptor<MovieOutputData> argumentCaptor = ArgumentCaptor.forClass(MovieOutputData.class);
@@ -86,7 +67,7 @@ class MovieUseCaseInteractorTest {
     @Test
     void getMovieById_caseMovieExisted() {
         UUID movieId = UUID.randomUUID();
-        Movie expectedMovie = buildMovie(movieId);
+        Movie expectedMovie = MovieDataUtils.buildMovie(movieId);
         MovieOutputData expectedMovieOutputData = MovieDataUtils.buildMovieOutputData(movieId);
         when(movieDataAccess.getMovieById(movieId)).thenReturn(expectedMovie);
         when(movieOutputBoundary.presentMovieSuccessResponse(any(MovieOutputData.class))).thenReturn(expectedMovieOutputData);

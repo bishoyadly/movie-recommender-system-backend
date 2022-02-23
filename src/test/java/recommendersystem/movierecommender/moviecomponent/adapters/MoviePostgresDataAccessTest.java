@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieDataAccess;
+import recommendersystem.movierecommender.moviecomponent.usecases.MovieDataUtils;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +25,7 @@ class MoviePostgresDataAccessTest {
 
     void assertMovieFields(Movie expectedMovie, Movie actualMovie) {
         assertEquals(expectedMovie.getId(), actualMovie.getId());
-        assertEquals(expectedMovie.getImdbID(), actualMovie.getImdbID());
+        assertEquals(expectedMovie.getImdbId(), actualMovie.getImdbId());
         assertEquals(expectedMovie.getTitle(), actualMovie.getTitle());
         assertEquals(expectedMovie.getGenresList(), actualMovie.getGenresList());
         assertEquals(expectedMovie.getImageUrl(), actualMovie.getImageUrl());
@@ -46,8 +47,8 @@ class MoviePostgresDataAccessTest {
     @Test
     void getMovieById() {
         UUID movieId = UUID.randomUUID();
-        MovieRecord record = MovieRecordFactory.buildMovieRecord(movieId);
-        Movie expectedMovie = movieRecordMapper.recordToMovie(record);
+        Movie expectedMovie = MovieDataUtils.buildMovie(movieId);
+        MovieRecord record = MovieRecordFactory.buildMovieRecordFromMovie(expectedMovie);
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(record));
         Movie returnedMovie = movieDataAccess.getMovieById(movieId);
         verify(movieRepository, times(1)).findById(movieId);

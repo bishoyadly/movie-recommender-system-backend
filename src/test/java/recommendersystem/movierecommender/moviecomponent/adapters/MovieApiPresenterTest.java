@@ -31,19 +31,19 @@ class MovieApiPresenterTest {
         } catch (MovieApiPresenterException e) {
             actualDto = e.getProblemDto();
         }
-        assertEquals(expectedDto.getErrorMessage(), actualDto.getErrorMessage());
-        assertEquals(expectedDto.getErrorDetail(), actualDto.getErrorDetail());
+        assertEquals(expectedDto.getErrorMessageTitle(), actualDto.getErrorMessageTitle());
+        assertEquals(expectedDto.getErrorMessageDetail(), actualDto.getErrorMessageDetail());
     }
 
     private void assertMovieBadRequestProblemDto(ProblemDto expectedDto) {
         ProblemDto actualDto = new ProblemDto();
         try {
-            movieOutputBoundary.presentBadRequestErrorResponse(expectedDto.getErrorDetail());
+            movieOutputBoundary.presentBadRequestErrorResponse(expectedDto.getErrorMessageDetail());
         } catch (MovieApiPresenterException e) {
             actualDto = e.getProblemDto();
         }
-        assertEquals(expectedDto.getErrorMessage(), actualDto.getErrorMessage());
-        assertEquals(expectedDto.getErrorDetail(), actualDto.getErrorDetail());
+        assertEquals(expectedDto.getErrorMessageTitle(), actualDto.getErrorMessageTitle());
+        assertEquals(expectedDto.getErrorMessageDetail(), actualDto.getErrorMessageDetail());
     }
 
     @BeforeEach
@@ -65,8 +65,8 @@ class MovieApiPresenterTest {
     void presentNotFoundErrorResponse() {
         assertThrows(MovieApiPresenterException.class, () -> movieOutputBoundary.presentNotFoundErrorResponse(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND));
         ProblemDto expectedProblemDto = new ProblemDto();
-        expectedProblemDto.setErrorMessage(HttpStatus.NOT_FOUND.toString());
-        expectedProblemDto.setErrorDetail(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
+        expectedProblemDto.setErrorMessageTitle(HttpStatus.NOT_FOUND.toString());
+        expectedProblemDto.setErrorMessageDetail(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
         assertMovieNotFoundProblemDto(expectedProblemDto);
     }
 
@@ -74,8 +74,8 @@ class MovieApiPresenterTest {
     void presentBadRequestErrorResponse() {
         assertThrows(MovieApiPresenterException.class, () -> movieOutputBoundary.presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_MOVIE_ID));
         ProblemDto expectedProblemDto = new ProblemDto();
-        expectedProblemDto.setErrorMessage(HttpStatus.BAD_REQUEST.toString());
-        expectedProblemDto.setErrorDetail(MovieUseCaseErrorMessages.INVALID_MOVIE_ID);
+        expectedProblemDto.setErrorMessageTitle(HttpStatus.BAD_REQUEST.toString());
+        expectedProblemDto.setErrorMessageDetail(MovieUseCaseErrorMessages.INVALID_MOVIE_ID);
         assertMovieBadRequestProblemDto(expectedProblemDto);
     }
 

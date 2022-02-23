@@ -65,7 +65,7 @@ class MovieControllerTest {
     private MovieDto buildMovieDto(UUID movieId) {
         MovieDto movieDto = new MovieDto();
         movieDto.setId(movieId);
-        movieDto.setImdbID("imdb-id");
+        movieDto.setImdbId("imdb-id");
         movieDto.setTitle("movie-title");
         movieDto.setGenresList(List.of(GenreDto.ACTION, GenreDto.COMEDY));
         movieDto.setImageUrl("image-url");
@@ -81,7 +81,7 @@ class MovieControllerTest {
 
     private void assertMovieDtoFields(MovieDto expectedMovieDto, MovieDto actualMovieDto) {
         assertEquals(expectedMovieDto.getId(), actualMovieDto.getId());
-        assertEquals(expectedMovieDto.getImdbID(), actualMovieDto.getImdbID());
+        assertEquals(expectedMovieDto.getImdbId(), actualMovieDto.getImdbId());
         assertEquals(expectedMovieDto.getTitle(), actualMovieDto.getTitle());
         assertEquals(expectedMovieDto.getGenresList(), actualMovieDto.getGenresList());
         assertEquals(expectedMovieDto.getImageUrl(), actualMovieDto.getImageUrl());
@@ -114,8 +114,8 @@ class MovieControllerTest {
     void getMovieById_caseMovieNotExists() {
         UUID movieId = UUID.randomUUID();
         ProblemDto expectedProblemDto = new ProblemDto();
-        expectedProblemDto.setErrorMessage(HttpStatus.NOT_FOUND.toString());
-        expectedProblemDto.setErrorDetail(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
+        expectedProblemDto.setErrorMessageTitle(HttpStatus.NOT_FOUND.toString());
+        expectedProblemDto.setErrorMessageDetail(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
         MovieApiPresenterException exception = new MovieApiPresenterException(HttpStatus.NOT_FOUND, MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
         when(movieComponent.getMovieById(movieId)).thenThrow(exception);
         String requestUrl = String.format("/movies/%s", movieId);
@@ -124,8 +124,8 @@ class MovieControllerTest {
         ProblemDto actualProblemDto = responseStringToProblemDto(response.getContentAsString());
 
         verify(movieComponent, times(1)).getMovieById(movieId);
-        assertEquals(expectedProblemDto.getErrorMessage(), actualProblemDto.getErrorMessage());
-        assertEquals(expectedProblemDto.getErrorDetail(), actualProblemDto.getErrorDetail());
+        assertEquals(expectedProblemDto.getErrorMessageTitle(), actualProblemDto.getErrorMessageTitle());
+        assertEquals(expectedProblemDto.getErrorMessageDetail(), actualProblemDto.getErrorMessageDetail());
     }
 
     @Test

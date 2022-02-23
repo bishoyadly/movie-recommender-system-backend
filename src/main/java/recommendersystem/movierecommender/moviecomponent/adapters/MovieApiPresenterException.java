@@ -15,7 +15,7 @@ public class MovieApiPresenterException extends ResponseStatusException {
     public MovieApiPresenterException(HttpStatus httpStatus, String errorMessage) {
         super(httpStatus, errorMessage);
         this.problemDto = new ProblemDto();
-        this.problemDto.setErrorMessage(httpStatus.toString());
-        this.problemDto.setErrorDetail(errorMessage);
+        this.problemDto.setErrorMessageTitle(httpStatus.toString());
+        this.problemDto.errorMessageDetail(errorMessage);
     }
 }

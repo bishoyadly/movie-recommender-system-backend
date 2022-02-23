@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class MoviePostgresDataAccess implements MovieDataAccess {
+class MoviePostgresDataAccess implements MovieDataAccess {
     private final MovieRepository movieRepository;
     private final MovieRecordMapper movieRecordMapper;
 

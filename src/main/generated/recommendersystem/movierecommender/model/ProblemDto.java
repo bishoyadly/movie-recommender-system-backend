@@ -13,52 +13,52 @@ import java.util.Objects;
 public class ProblemDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("errorMessage")
-    private String errorMessage;
+    @JsonProperty("errorMessageTitle")
+    private String errorMessageTitle;
 
-    @JsonProperty("errorDetail")
-    private String errorDetail;
+    @JsonProperty("errorMessageDetail")
+    private String errorMessageDetail;
 
-    public ProblemDto errorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public ProblemDto errorMessageTitle(String errorMessageTitle) {
+        this.errorMessageTitle = errorMessageTitle;
         return this;
     }
 
     /**
-     * Get errorMessage
+     * Get errorMessageTitle
      *
-     * @return errorMessage
+     * @return errorMessageTitle
      */
     @ApiModelProperty(example = "BAD REQUEST", value = "")
 
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getErrorMessageTitle() {
+        return errorMessageTitle;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setErrorMessageTitle(String errorMessageTitle) {
+        this.errorMessageTitle = errorMessageTitle;
     }
 
-    public ProblemDto errorDetail(String errorDetail) {
-        this.errorDetail = errorDetail;
+    public ProblemDto errorMessageDetail(String errorMessageDetail) {
+        this.errorMessageDetail = errorMessageDetail;
         return this;
     }
 
     /**
-     * Get errorDetail
+     * Get errorMessageDetail
      *
-     * @return errorDetail
+     * @return errorMessageDetail
      */
     @ApiModelProperty(example = "Movie Not Found", value = "")
 
 
-    public String getErrorDetail() {
-        return errorDetail;
+    public String getErrorMessageDetail() {
+        return errorMessageDetail;
     }
 
-    public void setErrorDetail(String errorDetail) {
-        this.errorDetail = errorDetail;
+    public void setErrorMessageDetail(String errorMessageDetail) {
+        this.errorMessageDetail = errorMessageDetail;
     }
 
 
@@ -71,13 +71,13 @@ public class ProblemDto implements Serializable {
             return false;
         }
         ProblemDto problem = (ProblemDto) o;
-        return Objects.equals(this.errorMessage, problem.errorMessage) &&
-                Objects.equals(this.errorDetail, problem.errorDetail);
+        return Objects.equals(this.errorMessageTitle, problem.errorMessageTitle) &&
+                Objects.equals(this.errorMessageDetail, problem.errorMessageDetail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(errorMessage, errorDetail);
+        return Objects.hash(errorMessageTitle, errorMessageDetail);
     }
 
     @Override
@@ -85,8 +85,8 @@ public class ProblemDto implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("class ProblemDto {\n");
 
-        sb.append("    errorMessage: ").append(toIndentedString(errorMessage)).append("\n");
-        sb.append("    errorDetail: ").append(toIndentedString(errorDetail)).append("\n");
+        sb.append("    errorMessageTitle: ").append(toIndentedString(errorMessageTitle)).append("\n");
+        sb.append("    errorMessageDetail: ").append(toIndentedString(errorMessageDetail)).append("\n");
         sb.append("}");
         return sb.toString();
     }

@@ -5,7 +5,7 @@ import recommendersystem.movierecommender.model.MovieDto;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputData;
 
 @Mapper(componentModel = "spring")
-public interface MoviePresenterMapper {
+interface MoviePresenterMapper {
 
     MovieOutputData movieDtoToMovieOutputData(MovieDto movieDto);
 

@@ -20,8 +20,8 @@ public class MovieDto implements Serializable {
     @JsonProperty("id")
     private UUID id;
 
-    @JsonProperty("imdbID")
-    private String imdbID;
+    @JsonProperty("imdbId")
+    private String imdbId;
 
     @JsonProperty("title")
     private String title;
@@ -78,25 +78,25 @@ public class MovieDto implements Serializable {
         this.id = id;
     }
 
-    public MovieDto imdbID(String imdbID) {
-        this.imdbID = imdbID;
+    public MovieDto imdbId(String imdbId) {
+        this.imdbId = imdbId;
         return this;
     }
 
     /**
-     * Get imdbID
+     * Get imdbId
      *
-     * @return imdbID
+     * @return imdbId
      */
     @ApiModelProperty(value = "")
 
 
-    public String getImdbID() {
-        return imdbID;
+    public String getImdbId() {
+        return imdbId;
     }
 
-    public void setImdbID(String imdbID) {
-        this.imdbID = imdbID;
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
     }
 
     public MovieDto title(String title) {
@@ -345,7 +345,7 @@ public class MovieDto implements Serializable {
         }
         MovieDto movie = (MovieDto) o;
         return Objects.equals(this.id, movie.id) &&
-                Objects.equals(this.imdbID, movie.imdbID) &&
+                Objects.equals(this.imdbId, movie.imdbId) &&
                 Objects.equals(this.title, movie.title) &&
                 Objects.equals(this.genresList, movie.genresList) &&
                 Objects.equals(this.imageUrl, movie.imageUrl) &&
@@ -360,7 +360,7 @@ public class MovieDto implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imdbID, title, genresList, imageUrl, rating, ratingsCount, overview, originalLanguage, releaseDate, productionCountries, productionCompanies);
+        return Objects.hash(id, imdbId, title, genresList, imageUrl, rating, ratingsCount, overview, originalLanguage, releaseDate, productionCountries, productionCompanies);
     }
 
     @Override
@@ -369,7 +369,7 @@ public class MovieDto implements Serializable {
         sb.append("class MovieDto {\n");
 
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    imdbID: ").append(toIndentedString(imdbID)).append("\n");
+        sb.append("    imdbId: ").append(toIndentedString(imdbId)).append("\n");
         sb.append("    title: ").append(toIndentedString(title)).append("\n");
         sb.append("    genresList: ").append(toIndentedString(genresList)).append("\n");
         sb.append("    imageUrl: ").append(toIndentedString(imageUrl)).append("\n");

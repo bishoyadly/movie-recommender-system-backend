@@ -1,6 +1,10 @@
 package recommendersystem.movierecommender.moviecomponent.adapters;
 
+import recommendersystem.movierecommender.moviecomponent.entities.Genre;
+import recommendersystem.movierecommender.moviecomponent.entities.Movie;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +54,43 @@ class MovieRecordFactory {
         JsonRecord actionGenre = new JsonRecord();
         actionGenre.setId("2");
         actionGenre.setName("action");
-        return List.of(comedyGenre, actionGenre);
+        return List.of(actionGenre, comedyGenre);
+    }
+
+    public static MovieRecord buildMovieRecordFromMovie(Movie movie) {
+        MovieRecord movieRecord = new MovieRecord();
+        movieRecord.setId(movie.getId());
+        movieRecord.setImdbId(movie.getImdbId());
+        movieRecord.setTitle(movie.getTitle());
+        movieRecord.setGenres(getGenresFromMovieGenresList(movie.getGenresList()));
+        movieRecord.setMovieImgUrl(movie.getImageUrl());
+        movieRecord.setVoteAverage(BigDecimal.valueOf(movie.getRating()));
+        movieRecord.setVoteCount(movie.getRatingsCount());
+        movieRecord.setOverview(movie.getOverview());
+        movieRecord.setOriginalLanguage(movie.getOriginalLanguage());
+        movieRecord.setReleaseDate(movie.getReleaseDate());
+        movieRecord.setProductionCompanies(getProductionCompaniesAndCountriesFromMovie(movie.getProductionCompanies()));
+        movieRecord.setProductionCountries(getProductionCompaniesAndCountriesFromMovie(movie.getProductionCountries()));
+        return movieRecord;
+    }
+
+    private static List<JsonRecord> getGenresFromMovieGenresList(List<Genre> genreList) {
+        List<JsonRecord> jsonRecordList = new ArrayList<>();
+        for (Genre genre : genreList) {
+            JsonRecord jsonRecord = new JsonRecord();
+            jsonRecord.setName(genre.name());
+            jsonRecordList.add(jsonRecord);
+        }
+        return jsonRecordList;
+    }
+
+    private static List<JsonRecord> getProductionCompaniesAndCountriesFromMovie(List<String> stringList) {
+        List<JsonRecord> jsonRecordList = new ArrayList<>();
+        for (String string : stringList) {
+            JsonRecord jsonRecord = new JsonRecord();
+            jsonRecord.setName(string);
+            jsonRecordList.add(jsonRecord);
+        }
+        return jsonRecordList;
     }
 }

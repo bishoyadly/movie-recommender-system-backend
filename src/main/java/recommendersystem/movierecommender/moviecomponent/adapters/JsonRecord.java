@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class JsonRecord implements Serializable {
+class JsonRecord implements Serializable {
     private String id;
     private String name;
     @JsonProperty("iso_3166_1")

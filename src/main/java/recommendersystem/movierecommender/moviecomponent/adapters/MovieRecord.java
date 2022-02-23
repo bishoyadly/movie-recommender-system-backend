@@ -20,7 +20,7 @@ import java.util.UUID;
 @Entity(name = "movies_metadata")
 @Getter
 @Setter
-public class MovieRecord {
+class MovieRecord {
     @Column(name = "id")
     @Id
     private UUID id;

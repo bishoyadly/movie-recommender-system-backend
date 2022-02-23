@@ -70,7 +70,7 @@ components:
         id:
           type: string
           format: uuid
-        imdbID:
+        imdbId:
           type: string
         title:
           type: string
@@ -135,10 +135,10 @@ components:
     Problem:
       type: object
       properties:
-        errorMessage:
+        errorMessageTitle:
           type: string
           example: 'BAD REQUEST'
-        errorDetail:
+        errorMessageDetail:
           type: string
           example: 'Movie Not Found'
 

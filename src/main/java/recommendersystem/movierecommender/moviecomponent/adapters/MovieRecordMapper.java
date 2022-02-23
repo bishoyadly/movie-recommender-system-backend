@@ -11,6 +11,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 interface MovieRecordMapper {
 
+    @Mapping(target = "ratingsCount", source = "voteCount")
+    @Mapping(target = "rating", source = "voteAverage")
+    @Mapping(target = "imageUrl", source = "movieImgUrl")
     @Mapping(target = "genresList", expression = "java( jsonRecordsListToGenresList(movieRecord.getGenres()) )")
     @Mapping(target = "productionCompanies", expression = "java( jsonRecordsListToStringList(movieRecord.getProductionCompanies() ) )")
     @Mapping(target = "productionCountries", expression = "java( jsonRecordsListToStringList(movieRecord.getProductionCountries() ) )")

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 public class Movie {
     private UUID id;
-    private String imdbID;
+    private String imdbId;
     private String title;
     List<Genre> genresList;
     String imageUrl;

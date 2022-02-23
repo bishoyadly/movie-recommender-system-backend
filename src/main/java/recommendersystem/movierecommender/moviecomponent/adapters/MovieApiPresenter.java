@@ -6,7 +6,7 @@ import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputBou
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputData;
 
 @Component
-public class MovieApiPresenter implements MovieOutputBoundary {
+class MovieApiPresenter implements MovieOutputBoundary {
     private final MoviePresenterMapper moviePresenterMapper;
 
     public MovieApiPresenter(MoviePresenterMapper moviePresenterMapper) {
