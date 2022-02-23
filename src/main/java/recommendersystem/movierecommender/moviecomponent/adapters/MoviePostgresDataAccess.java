@@ -1,11 +1,13 @@
 package recommendersystem.movierecommender.moviecomponent.adapters;
 
+import org.springframework.stereotype.Component;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieDataAccess;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class MoviePostgresDataAccess implements MovieDataAccess {
     private final MovieRepository movieRepository;
     private final MovieRecordMapper movieRecordMapper;

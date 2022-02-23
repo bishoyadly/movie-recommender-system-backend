@@ -8,7 +8,7 @@ import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 interface MovieRecordMapper {
 
     @Mapping(target = "genresList", expression = "java( jsonRecordsListToGenresList(movieRecord.getGenres()) )")

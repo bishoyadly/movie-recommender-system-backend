@@ -43,12 +43,12 @@ class MovieUseCaseInteractorTest {
         return movie;
     }
 
-    void assertMovieResponse(MovieResponse expectedResponse, MovieResponse actualResponse) {
-        ArgumentCaptor<MovieResponse> argumentCaptor = ArgumentCaptor.forClass(MovieResponse.class);
+    void assertMovieResponse(MovieOutputData expectedResponse, MovieOutputData actualResponse) {
+        ArgumentCaptor<MovieOutputData> argumentCaptor = ArgumentCaptor.forClass(MovieOutputData.class);
         verify(movieOutputBoundary).presentMovieSuccessResponse(argumentCaptor.capture());
-        verify(movieOutputBoundary, times(1)).presentMovieSuccessResponse(any(MovieResponse.class));
-        MovieDataUtils.assertMovieResponseFields(expectedResponse, actualResponse);
-        MovieDataUtils.assertMovieResponseFields(expectedResponse, argumentCaptor.getValue());
+        verify(movieOutputBoundary, times(1)).presentMovieSuccessResponse(any(MovieOutputData.class));
+        MovieDataUtils.assertMovieOutputDataFields(expectedResponse, actualResponse);
+        MovieDataUtils.assertMovieOutputDataFields(expectedResponse, argumentCaptor.getValue());
     }
 
     @BeforeEach
@@ -87,13 +87,13 @@ class MovieUseCaseInteractorTest {
     void getMovieById_caseMovieExisted() {
         UUID movieId = UUID.randomUUID();
         Movie expectedMovie = buildMovie(movieId);
-        MovieResponse expectedMovieResponse = MovieDataUtils.buildMovieResponse(movieId);
+        MovieOutputData expectedMovieOutputData = MovieDataUtils.buildMovieOutputData(movieId);
         when(movieDataAccess.getMovieById(movieId)).thenReturn(expectedMovie);
-        when(movieOutputBoundary.presentMovieSuccessResponse(any(MovieResponse.class))).thenReturn(expectedMovieResponse);
+        when(movieOutputBoundary.presentMovieSuccessResponse(any(MovieOutputData.class))).thenReturn(expectedMovieOutputData);
 
-        MovieResponse actualMovieResponse = (MovieResponse) movieInputBoundary.getMovieById(movieId);
+        MovieOutputData actualMovieOutputData = (MovieOutputData) movieInputBoundary.getMovieById(movieId);
 
         verify(movieDataAccess, times(1)).getMovieById(movieId);
-        assertMovieResponse(expectedMovieResponse, actualMovieResponse);
+        assertMovieResponse(expectedMovieOutputData, actualMovieOutputData);
     }
 }

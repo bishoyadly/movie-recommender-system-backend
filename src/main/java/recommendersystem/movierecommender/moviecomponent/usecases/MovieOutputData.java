@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class MovieResponse {
+public class MovieOutputData {
     private UUID id;
     private String imdbID;
     private String title;
-    List<GenreResponse> genresList;
+    List<GenreOutputData> genresList;
     String imageUrl;
     Float rating;
     Integer ratingsCount;

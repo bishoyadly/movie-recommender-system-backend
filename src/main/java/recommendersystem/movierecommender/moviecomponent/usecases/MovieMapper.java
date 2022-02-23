@@ -5,5 +5,5 @@ import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 
 @Mapper
 public interface MovieMapper {
-    MovieResponse movieToMovieResponse(Movie movie);
+    MovieOutputData movieToMovieResponse(Movie movie);
 }

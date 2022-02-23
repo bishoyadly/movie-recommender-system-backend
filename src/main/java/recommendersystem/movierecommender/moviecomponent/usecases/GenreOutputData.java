@@ -1,6 +1,6 @@
 package recommendersystem.movierecommender.moviecomponent.usecases;
 
-public enum GenreResponse {
+public enum GenreOutputData {
     ACTION,
     ANIMATION,
     ADVENTURE,

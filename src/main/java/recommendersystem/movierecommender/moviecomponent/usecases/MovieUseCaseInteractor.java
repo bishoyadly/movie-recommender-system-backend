@@ -39,7 +39,7 @@ public class MovieUseCaseInteractor implements MovieInputBoundary {
 
     //#region  Presenter Methods
     private Object presentMovieSuccessResponse(Movie movie) {
-        MovieResponse response = movieMapper.movieToMovieResponse(movie);
+        MovieOutputData response = movieMapper.movieToMovieResponse(movie);
         return movieOutputBoundary.presentMovieSuccessResponse(response);
     }
 

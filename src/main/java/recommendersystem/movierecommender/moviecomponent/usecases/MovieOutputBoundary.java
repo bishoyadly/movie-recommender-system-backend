@@ -2,7 +2,7 @@ package recommendersystem.movierecommender.moviecomponent.usecases;
 
 public interface MovieOutputBoundary {
 
-    Object presentMovieSuccessResponse(MovieResponse movieResponse);
+    Object presentMovieSuccessResponse(MovieOutputData movieOutputData);
 
     Object presentNotFoundErrorResponse(String errorMessage);
 
