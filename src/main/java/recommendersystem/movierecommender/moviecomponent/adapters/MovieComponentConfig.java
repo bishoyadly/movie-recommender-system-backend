@@ -8,9 +8,9 @@ import recommendersystem.movierecommender.moviecomponent.usecases.*;
 public class MovieComponentConfig {
 
     @Bean(name = "movieInputBoundary")
-    MovieInputBoundary movieInputBoundary(MoviePresenter moviePresenter, MoviePostgresDataAccess moviePostgresDataAccess) {
+    MovieInputBoundary movieInputBoundary(MovieApiPresenter movieApiPresenter, MoviePostgresDataAccess moviePostgresDataAccess) {
         MovieMapper movieMapper = new MovieMapperImpl();
-        return new MovieUseCaseInteractor(moviePresenter, moviePostgresDataAccess, movieMapper);
+        return new MovieUseCaseInteractor(movieApiPresenter, moviePostgresDataAccess, movieMapper);
     }
 
 }

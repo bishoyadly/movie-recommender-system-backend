@@ -3,7 +3,6 @@ package recommendersystem.movierecommender.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,8 +14,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import recommendersystem.movierecommender.model.GenreDto;
 import recommendersystem.movierecommender.model.MovieDto;
 import recommendersystem.movierecommender.model.ProblemDto;
+import recommendersystem.movierecommender.moviecomponent.adapters.MovieApiPresenterException;
 import recommendersystem.movierecommender.moviecomponent.adapters.MovieComponent;
-import recommendersystem.movierecommender.moviecomponent.adapters.MoviePresenterMapper;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieUseCaseErrorMessages;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@WebMvcTest({MovieController.class, MovieComponent.class, MoviePresenterMapper.class})
+@WebMvcTest({MovieController.class, MovieComponent.class})
 class MovieControllerTest {
 
     @MockBean
@@ -117,13 +116,14 @@ class MovieControllerTest {
         ProblemDto expectedProblemDto = new ProblemDto();
         expectedProblemDto.setErrorMessage(HttpStatus.NOT_FOUND.toString());
         expectedProblemDto.setErrorDetail(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
-        when(movieComponent.getMovieById(movieId)).thenReturn(expectedProblemDto);
+        MovieApiPresenterException exception = new MovieApiPresenterException(HttpStatus.NOT_FOUND, MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
+        when(movieComponent.getMovieById(movieId)).thenThrow(exception);
         String requestUrl = String.format("/movies/%s", movieId);
 
         MockHttpServletResponse response = performGetRequest(requestUrl);
         ProblemDto actualProblemDto = responseStringToProblemDto(response.getContentAsString());
 
-        verify(movieComponent, Mockito.times(1)).getMovieById(movieId);
+        verify(movieComponent, times(1)).getMovieById(movieId);
         assertEquals(expectedProblemDto.getErrorMessage(), actualProblemDto.getErrorMessage());
         assertEquals(expectedProblemDto.getErrorDetail(), actualProblemDto.getErrorDetail());
     }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import recommendersystem.movierecommender.controller.MoviesApi;
+import recommendersystem.movierecommender.moviecomponent.adapters.MovieApiPresenterException;
 import recommendersystem.movierecommender.moviecomponent.adapters.MovieComponent;
 
 import java.util.UUID;
@@ -20,6 +21,10 @@ public class MovieController implements MoviesApi {
 
     @Override
     public ResponseEntity<Object> getMovieById(UUID movieId) {
-        return ResponseEntity.ok(movieComponent.getMovieById(movieId));
+        try {
+            return ResponseEntity.ok(movieComponent.getMovieById(movieId));
+        } catch (MovieApiPresenterException e) {
+            return ResponseEntity.status(e.getStatus()).body(e.getProblemDto());
+        }
     }
 }
