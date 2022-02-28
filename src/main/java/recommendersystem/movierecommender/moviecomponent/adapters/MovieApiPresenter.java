@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputBoundary;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputData;
+import recommendersystem.movierecommender.moviecomponent.usecases.MoviesPageOutputData;
 
 @Component
 class MovieApiPresenter implements MovieOutputBoundary {
@@ -26,5 +27,10 @@ class MovieApiPresenter implements MovieOutputBoundary {
     @Override
     public Object presentBadRequestErrorResponse(String errorDetailedMessage) {
         throw new MovieApiPresenterException(HttpStatus.BAD_REQUEST, errorDetailedMessage);
+    }
+
+    @Override
+    public Object presentMoviesPageSuccessResponse(MoviesPageOutputData moviesPageOutputData) {
+        return null;
     }
 }

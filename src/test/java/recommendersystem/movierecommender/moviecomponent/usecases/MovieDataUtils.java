@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import recommendersystem.movierecommender.moviecomponent.entities.Genre;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
+import recommendersystem.movierecommender.moviecomponent.entities.MoviesPage;
 
 import java.util.List;
 import java.util.UUID;
@@ -59,5 +60,23 @@ public class MovieDataUtils {
         movie.setProductionCountries(List.of("USA", "China"));
         movie.setProductionCompanies(List.of("Marvel", "Disney"));
         return movie;
+    }
+
+    public static MoviesPage buildMoviesPage(int pageSize, int pageNumber) {
+        MoviesPage moviesPage = new MoviesPage();
+        moviesPage.setPageSize(pageSize);
+        moviesPage.setPageNumber(pageNumber);
+        Movie movie = buildMovie(UUID.randomUUID());
+        moviesPage.setMovieList(List.of(movie));
+        return moviesPage;
+    }
+
+    public static MoviesPageOutputData buildMoviesPageOutputData(int pageSize, int pageNumber) {
+        MoviesPageOutputData moviesPageOutputData = new MoviesPageOutputData();
+        moviesPageOutputData.setPageSize(pageSize);
+        moviesPageOutputData.setPageNumber(pageNumber);
+        MovieOutputData movieOutputData = buildMovieOutputData(UUID.randomUUID());
+        moviesPageOutputData.setMovieOutputDataList(List.of(movieOutputData));
+        return moviesPageOutputData;
     }
 }

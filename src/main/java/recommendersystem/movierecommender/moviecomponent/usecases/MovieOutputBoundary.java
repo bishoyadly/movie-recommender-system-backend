@@ -7,4 +7,6 @@ public interface MovieOutputBoundary {
     Object presentNotFoundErrorResponse(String errorMessage);
 
     Object presentBadRequestErrorResponse(String errorMessage);
+
+    Object presentMoviesPageSuccessResponse(MoviesPageOutputData moviesPageOutputData);
 }

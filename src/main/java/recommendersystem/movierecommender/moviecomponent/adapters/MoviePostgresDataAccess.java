@@ -2,6 +2,7 @@ package recommendersystem.movierecommender.moviecomponent.adapters;
 
 import org.springframework.stereotype.Component;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
+import recommendersystem.movierecommender.moviecomponent.entities.MoviesPage;
 import recommendersystem.movierecommender.moviecomponent.usecases.MovieDataAccess;
 
 import java.util.Optional;
@@ -24,5 +25,10 @@ class MoviePostgresDataAccess implements MovieDataAccess {
             return movieRecordMapper.recordToMovie(optional.get());
         else
             return new Movie();
+    }
+
+    @Override
+    public MoviesPage getMostPopularMoviesList(int pageSize, int pageNumber) {
+        return null;
     }
 }

@@ -7,10 +7,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
+import recommendersystem.movierecommender.moviecomponent.entities.MoviesPage;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -30,6 +33,21 @@ class MovieUseCaseInteractorTest {
         verify(movieOutputBoundary, times(1)).presentMovieSuccessResponse(any(MovieOutputData.class));
         MovieDataUtils.assertMovieOutputDataFields(expectedResponse, actualResponse);
         MovieDataUtils.assertMovieOutputDataFields(expectedResponse, argumentCaptor.getValue());
+    }
+
+    private void assertMoviesPageOutputData(MoviesPageOutputData expectedPage, MoviesPageOutputData actualPage) {
+        ArgumentCaptor<MoviesPageOutputData> argumentCaptor = ArgumentCaptor.forClass(MoviesPageOutputData.class);
+        verify(movieOutputBoundary, times(1)).presentMoviesPageSuccessResponse(any(MoviesPageOutputData.class));
+        verify(movieOutputBoundary).presentMoviesPageSuccessResponse(argumentCaptor.capture());
+        assertMoviesPageOutputDataFields(expectedPage, actualPage);
+        assertMoviesPageOutputDataFields(expectedPage, argumentCaptor.getValue());
+    }
+
+    private void assertMoviesPageOutputDataFields(MoviesPageOutputData expectedPage, MoviesPageOutputData actualPage) {
+        assertEquals(expectedPage.getRecordsCount(), actualPage.getRecordsCount());
+        assertEquals(expectedPage.getPageNumber(), actualPage.getPageNumber());
+        assertEquals(expectedPage.getPageSize(), actualPage.getPageSize());
+        assertEquals(expectedPage.getMovieOutputDataList().size(), actualPage.getMovieOutputDataList().size());
     }
 
     @BeforeEach
@@ -77,4 +95,49 @@ class MovieUseCaseInteractorTest {
         verify(movieDataAccess, times(1)).getMovieById(movieId);
         assertMovieResponse(expectedMovieOutputData, actualMovieOutputData);
     }
+
+    @Test
+    void getMostPopularMovies_caseInvalidPageSizeOrNumber() {
+        movieInputBoundary.getMostPopularMoviesList(0, 1);
+        verify(movieDataAccess, times(0)).getMostPopularMoviesList(anyInt(), anyInt());
+        verify(movieOutputBoundary, times(1)).presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_SIZE);
+
+        movieInputBoundary.getMostPopularMoviesList(1, 0);
+        verify(movieDataAccess, times(0)).getMostPopularMoviesList(anyInt(), anyInt());
+        verify(movieOutputBoundary, times(1)).presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_NUMBER);
+    }
+
+    @Test
+    void getMostPopularMovies_caseNoMoviesExist() {
+        int pageSize = 5, pageNumber = 1;
+        MoviesPage moviesPage = new MoviesPage();
+        moviesPage.setMovieList(new ArrayList<>());
+        MoviesPageOutputData expectedPage = new MoviesPageOutputData();
+        expectedPage.setMovieOutputDataList(new ArrayList<>());
+        when(movieDataAccess.getMostPopularMoviesList(pageSize, pageNumber)).thenReturn(moviesPage);
+        when(movieOutputBoundary.presentMoviesPageSuccessResponse(any(MoviesPageOutputData.class))).thenReturn(expectedPage);
+
+        MoviesPageOutputData actualPage = (MoviesPageOutputData) movieInputBoundary.getMostPopularMoviesList(pageSize, pageNumber);
+
+        verify(movieDataAccess, times(1)).getMostPopularMoviesList(pageSize, pageNumber);
+        assertNotNull(actualPage);
+        assertMoviesPageOutputData(expectedPage, actualPage);
+    }
+
+
+    @Test
+    void getMostPopularMovies_caseMoviesExist() {
+        int pageSize = 5, pageNumber = 1;
+        MoviesPage moviesPage = MovieDataUtils.buildMoviesPage(pageSize, pageNumber);
+        MoviesPageOutputData expectedPage = MovieDataUtils.buildMoviesPageOutputData(pageSize, pageNumber);
+        when(movieDataAccess.getMostPopularMoviesList(pageSize, pageNumber)).thenReturn(moviesPage);
+        when(movieOutputBoundary.presentMoviesPageSuccessResponse(any(MoviesPageOutputData.class))).thenReturn(expectedPage);
+
+        MoviesPageOutputData actualPage = (MoviesPageOutputData) movieInputBoundary.getMostPopularMoviesList(pageSize, pageNumber);
+
+        verify(movieDataAccess, times(1)).getMostPopularMoviesList(pageSize, pageNumber);
+        assertNotNull(actualPage);
+        assertMoviesPageOutputData(expectedPage, actualPage);
+    }
+
 }
