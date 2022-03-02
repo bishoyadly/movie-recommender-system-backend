@@ -96,6 +96,8 @@ class MovieUseCaseInteractorTest {
         assertMovieResponse(expectedMovieOutputData, actualMovieOutputData);
     }
 
+
+
     @Test
     void getMostPopularMovies_caseInvalidPageSizeOrNumber() {
         movieInputBoundary.getMostPopularMoviesList(0, 1);
@@ -123,7 +125,6 @@ class MovieUseCaseInteractorTest {
         assertNotNull(actualPage);
         assertMoviesPageOutputData(expectedPage, actualPage);
     }
-
 
     @Test
     void getMostPopularMovies_caseMoviesExist() {

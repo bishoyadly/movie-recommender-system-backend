@@ -2,6 +2,7 @@ package recommendersystem.movierecommender.moviedatapreparation;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.scheduling.annotation.Async;
@@ -72,10 +73,10 @@ public class MovieDataPreparationService {
         AtomicInteger counter = new AtomicInteger(0);
         metadatumRepo.findAll().forEach(moviesMetadatum -> {
             taskExecutor.submit(() -> {
-                moviesMetadatum.setProductionCountries(correctJson(moviesMetadatum.getProductionCountries()));
-                moviesMetadatum.setProductionCompanies(correctJson(moviesMetadatum.getProductionCompanies()));
-                moviesMetadatum.setGenres(correctJson(moviesMetadatum.getGenres()));
-                moviesMetadatum.setSpokenLanguages(correctJson(moviesMetadatum.getSpokenLanguages()));
+                moviesMetadatum.setProductionCountries(replaceJsonIfNotValid(moviesMetadatum.getProductionCountries()));
+//                moviesMetadatum.setProductionCompanies(replaceJsonIfNotValid(moviesMetadatum.getProductionCompanies()));
+//                moviesMetadatum.setGenres(correctJson(moviesMetadatum.getGenres()));
+//                moviesMetadatum.setSpokenLanguages(correctJson(moviesMetadatum.getSpokenLanguages()));
                 metadatumRepo.save(moviesMetadatum);
                 log.info("record {} updated", counter.addAndGet(1));
             });
@@ -85,5 +86,42 @@ public class MovieDataPreparationService {
 
     private String correctJson(String json) {
         return json.replaceAll("'", "\"");
+    }
+
+    private String replaceJsonIfNotValid(String json) {
+        int count = StringUtils.countMatches(json, "\"");
+        if (count % 2 == 0) {
+            return json;
+        } else {
+            return "[]";
+        }
+    }
+
+    private String correctProductionCompaniesJson(String json) {
+        String correctedJson = json;
+        String[] arr = correctedJson.split("\"[a-zA-Z]*\":");
+        for (String element : arr) {
+            String correctedElement = element.replaceAll("\"", "");
+            correctedJson = correctedJson.replace(element, correctedElement);
+        }
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < correctedJson.length(); i++) {
+            if (correctedJson.charAt(i) == ':') {
+                builder.append(correctedJson.charAt(i));
+                builder.append(' ');
+                builder.append('"');
+                i++;
+                continue;
+            }
+            if ((correctedJson.charAt(i) == ',' && correctedJson.charAt(i - 1) != '}' && (correctedJson.charAt(i + 1) == '{' || correctedJson.charAt(i + 1) == ' '))
+                    || correctedJson.charAt(i) == '}') {
+                builder.append('"');
+                builder.append(correctedJson.charAt(i));
+                continue;
+            }
+            builder.append(correctedJson.charAt(i));
+        }
+        correctedJson = builder.toString();
+        return correctedJson;
     }
 }

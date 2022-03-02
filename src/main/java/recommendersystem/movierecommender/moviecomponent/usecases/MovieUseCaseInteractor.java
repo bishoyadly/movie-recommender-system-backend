@@ -19,30 +19,28 @@ public class MovieUseCaseInteractor implements MovieInputBoundary {
 
     @Override
     public Object getMovieById(UUID movieId) {
-        if (notValidId(movieId))
-            return presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_MOVIE_ID);
-        else
+        if (isValidId(movieId))
             return processGetMovieRequest(movieId);
+        else
+            return presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_MOVIE_ID);
     }
 
     @Override
     public Object getMostPopularMoviesList(int pageSize, int pageNumber) {
-        if (invalidPageField(pageSize)) {
+        if (invalidPageField(pageSize))
             return presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_SIZE);
-        }
-        if (invalidPageField(pageNumber)) {
+        if (invalidPageField(pageNumber))
             return presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_NUMBER);
-        }
         MoviesPage moviesPage = movieDataAccess.getMostPopularMoviesList(pageSize, pageNumber);
         return presentMoviesPageOutputDataSuccessResponse(moviesPage);
     }
 
     private Object processGetMovieRequest(UUID movieId) {
         Movie movie = movieDataAccess.getMovieById(movieId);
-        if (notValidId(movie.getId()))
-            return presentNotFoundErrorResponse();
-        else
+        if (isValidId(movie.getId()))
             return presentMovieSuccessResponse(movie);
+        else
+            return presentNotFoundErrorResponse();
     }
 
 
@@ -50,8 +48,8 @@ public class MovieUseCaseInteractor implements MovieInputBoundary {
         return pageSize <= 0;
     }
 
-    private boolean notValidId(UUID movieId) {
-        return Objects.isNull(movieId);
+    private boolean isValidId(UUID movieId) {
+        return Objects.nonNull(movieId);
     }
 
     //#region  Presenter Methods
