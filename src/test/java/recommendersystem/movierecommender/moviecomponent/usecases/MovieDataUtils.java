@@ -30,6 +30,51 @@ public class MovieDataUtils {
         assertEquals(expectedOutputData.getProductionCompanies(), actualOutputData.getProductionCompanies());
     }
 
+    public static MoviesPage buildMoviesPage(int pageSize, int pageNumber) {
+        Movie movie1 = buildMovie(UUID.randomUUID());
+        Movie movie2 = buildMovie(UUID.randomUUID());
+        List<Movie> moviesList = List.of(movie1, movie2);
+        MoviesPage moviesPage = new MoviesPage();
+        moviesPage.setPageSize(pageSize);
+        moviesPage.setPageNumber(pageNumber);
+        moviesPage.setElementsNumber(moviesList.size());
+        moviesPage.setTotalPages(100 / pageSize);
+        moviesPage.setTotalElements(100);
+        moviesPage.setMoviesList(moviesList);
+        return moviesPage;
+    }
+
+    public static Movie buildMovie(UUID movieId) {
+        Movie movie = new Movie();
+        movie.setId(movieId);
+        movie.setImdbId("imdb-id");
+        movie.setTitle("movie-title");
+        movie.setGenresList(List.of(Genre.ACTION, Genre.COMEDY));
+        movie.setImageUrl("image-url");
+        movie.setRating(Float.valueOf("4.7"));
+        movie.setRatingsCount(1);
+        movie.setOverview("overview");
+        movie.setOriginalLanguage("english");
+        movie.setReleaseDate("2020-10-29");
+        movie.setProductionCountries(List.of("USA", "China"));
+        movie.setProductionCompanies(List.of("Marvel", "Disney"));
+        return movie;
+    }
+
+    public static MoviesPageOutputData buildMoviesPageOutputData(int pageSize, int pageNumber) {
+        MovieOutputData outputData1 = buildMovieOutputData(UUID.randomUUID());
+        MovieOutputData outputData2 = buildMovieOutputData(UUID.randomUUID());
+        List<MovieOutputData> moviesList = List.of(outputData1, outputData2);
+        MoviesPageOutputData moviesPageOutputData = new MoviesPageOutputData();
+        moviesPageOutputData.setPageSize(pageSize);
+        moviesPageOutputData.setPageNumber(pageNumber);
+        moviesPageOutputData.setElementsNumber(moviesList.size());
+        moviesPageOutputData.setTotalPages(100 / pageSize);
+        moviesPageOutputData.setTotalElements(100);
+        moviesPageOutputData.setMoviesOutputDataList(moviesList);
+        return moviesPageOutputData;
+    }
+
     public static MovieOutputData buildMovieOutputData(UUID movieId) {
         MovieOutputData outputData = new MovieOutputData();
         outputData.setId(movieId);
@@ -45,20 +90,6 @@ public class MovieDataUtils {
         outputData.setProductionCountries(List.of("USA", "China"));
         outputData.setProductionCompanies(List.of("Marvel", "Disney"));
         return outputData;
-    }
-
-    public static MoviesPage buildMoviesPage(int pageSize, int pageNumber) {
-        Movie movie1 = buildMovie(UUID.randomUUID());
-        Movie movie2 = buildMovie(UUID.randomUUID());
-        List<Movie> moviesList = List.of(movie1, movie2);
-        MoviesPage moviesPage = new MoviesPage();
-        moviesPage.setPageSize(pageSize);
-        moviesPage.setPageNumber(pageNumber);
-        moviesPage.setElementsNumber(moviesList.size());
-        moviesPage.setTotalPages(100 / pageSize);
-        moviesPage.setTotalElements(100);
-        moviesPage.setMoviesList(moviesList);
-        return moviesPage;
     }
 
     public static MoviesPageOutputData buildMoviesPageOutputDataFromMoviesPage(MoviesPage moviesPage) {
@@ -92,22 +123,5 @@ public class MovieDataUtils {
         outputData.setProductionCountries(movie.getProductionCountries());
         outputData.setProductionCompanies(movie.getProductionCompanies());
         return outputData;
-    }
-
-    public static Movie buildMovie(UUID movieId) {
-        Movie movie = new Movie();
-        movie.setId(movieId);
-        movie.setImdbId("imdb-id");
-        movie.setTitle("movie-title");
-        movie.setGenresList(List.of(Genre.ACTION, Genre.COMEDY));
-        movie.setImageUrl("image-url");
-        movie.setRating(Float.valueOf("4.7"));
-        movie.setRatingsCount(1);
-        movie.setOverview("overview");
-        movie.setOriginalLanguage("english");
-        movie.setReleaseDate("2020-10-29");
-        movie.setProductionCountries(List.of("USA", "China"));
-        movie.setProductionCompanies(List.of("Marvel", "Disney"));
-        return movie;
     }
 }

@@ -32,7 +32,7 @@ class MoviePostgresDataAccess implements MovieDataAccess {
 
     @Override
     public MoviesPage getMostPopularMoviesList(int pageSize, int pageNumber) {
-        Page<MovieRecord> recordsPage = movieRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("popularity").descending()));
+        Page<MovieRecord> recordsPage = movieRepository.findAll(PageRequest.of(pageNumber - 1, pageSize, Sort.by("popularity").descending()));
         MoviesPage moviesPage = new MoviesPage();
         moviesPage.setPageSize(pageSize);
         moviesPage.setPageNumber(pageNumber);

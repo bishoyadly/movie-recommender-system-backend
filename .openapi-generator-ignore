@@ -24,5 +24,9 @@
 
 pom.xml
 README.md
-src/main/generated/recommendersystem/movierecommender/controller/*.java
-src/main/generated/recommendersystem/movierecommender/model/*.java
+src/main/generated/recommendersystem/movierecommender/controller/ApiUtil.java
+src/main/generated/recommendersystem/movierecommender/controller/MoviesApi.java
+src/main/generated/recommendersystem/movierecommender/model/GenreDto.java
+src/main/generated/recommendersystem/movierecommender/model/MovieDto.java
+src/main/generated/recommendersystem/movierecommender/model/ProblemDto.java
+src/main/generated/recommendersystem/movierecommender/model/MoviesPageDto.java

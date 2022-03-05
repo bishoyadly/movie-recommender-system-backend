@@ -15,8 +15,13 @@ class MovieApiPresenter implements MovieOutputBoundary {
     }
 
     @Override
-    public Object presentMovieSuccessResponse(MovieOutputData movieOutputData) {
-        return moviePresenterMapper.movieOutputDataToMovieDto(movieOutputData);
+    public Object presentMoviesPageSuccessResponse(MoviesPageOutputData pageOutputData) {
+        return moviePresenterMapper.pageOutputDataToPageDto(pageOutputData);
+    }
+
+    @Override
+    public Object presentMovieSuccessResponse(MovieOutputData outputData) {
+        return moviePresenterMapper.movieOutputDataToMovieDto(outputData);
     }
 
     @Override
@@ -27,10 +32,5 @@ class MovieApiPresenter implements MovieOutputBoundary {
     @Override
     public Object presentBadRequestErrorResponse(String errorDetailedMessage) {
         throw new MovieApiPresenterException(HttpStatus.BAD_REQUEST, errorDetailedMessage);
-    }
-
-    @Override
-    public Object presentMoviesPageSuccessResponse(MoviesPageOutputData moviesPageOutputData) {
-        return null;
     }
 }

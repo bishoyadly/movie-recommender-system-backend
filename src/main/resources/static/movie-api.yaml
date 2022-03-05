@@ -29,10 +29,8 @@ servers:
         default: 'recommendersystem/api/'
 tags:
   - name: Movie
-    description: Everything about your Pets
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
+    description: Movie Endpoints
+
 paths:
   /movies/{movieId}:
     get:
@@ -60,10 +58,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  /movies/most-popular-movies:
+    get:
+      tags:
+        - Movie
+      summary: Get Most Popular Movies
+      operationId: getMostPopularMovies
+      parameters:
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+            minimum: 5
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+      responses:
+        200:
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviesPage'
 
 
 components:
   schemas:
+    MoviesPage:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+        pageNumber:
+          type: integer
+        elementsNumber:
+          type: integer
+        totalElements:
+          type: number
+          format: float
+        totalPages:
+          type: integer
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+
     Movie:
       type: object
       properties:
@@ -72,8 +115,10 @@ components:
           format: uuid
         imdbId:
           type: string
+          example: 'tt0435761'
         title:
           type: string
+          example: 'Toy Story 3'
         genresList:
           type: array
           items:
@@ -81,7 +126,7 @@ components:
           example: [ 'ACTION','COMEDY' ]
         imageUrl:
           type: string
-          example: 'http://movie-image-url.jpg'
+          example: 'https://m.media-amazon.com/images/M/MV5BMTgxOTY4Mjc0MF5BMl5BanBnXkFtZTcwNTA4MDQyMw@@._V1_QL75_UY281_CR5,0,190,281_.jpg'
         rating:
           type: number
           format: float

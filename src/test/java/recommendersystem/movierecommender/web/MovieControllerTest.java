@@ -11,8 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import recommendersystem.movierecommender.model.GenreDto;
 import recommendersystem.movierecommender.model.MovieDto;
+import recommendersystem.movierecommender.model.MoviesPageDto;
 import recommendersystem.movierecommender.model.ProblemDto;
 import recommendersystem.movierecommender.moviecomponent.adapters.MovieApiPresenterException;
 import recommendersystem.movierecommender.moviecomponent.adapters.MovieComponent;
@@ -45,6 +48,15 @@ class MovieControllerTest {
     }
 
     @SneakyThrows
+    private MockHttpServletResponse performGetRequestWithQueryParams(String requestUrl, MultiValueMap<String, String> queryParams) {
+        return mockMvc.perform(
+                        MockMvcRequestBuilders.get(requestUrl)
+                                .queryParams(queryParams)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+    }
+
+    @SneakyThrows
     public static String objectToJson(Object object) {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
@@ -62,6 +74,12 @@ class MovieControllerTest {
         return objectMapper.readValue(response, MovieDto.class);
     }
 
+    @SneakyThrows
+    public static MoviesPageDto responseStringToMoviesPageDto(String response) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(response, MoviesPageDto.class);
+    }
+
     private MovieDto buildMovieDto(UUID movieId) {
         MovieDto movieDto = new MovieDto();
         movieDto.setId(movieId);
@@ -77,6 +95,20 @@ class MovieControllerTest {
         movieDto.setProductionCountries(List.of("USA", "China"));
         movieDto.setProductionCompanies(List.of("Marvel", "Disney"));
         return movieDto;
+    }
+
+    private MoviesPageDto buildMoviesPageDto(int pageSize, int pageNumber) {
+        MovieDto movieDto1 = buildMovieDto(UUID.randomUUID());
+        MovieDto movieDto2 = buildMovieDto(UUID.randomUUID());
+        List<MovieDto> movieDtoList = List.of(movieDto1, movieDto2);
+        MoviesPageDto pageDto = new MoviesPageDto();
+        pageDto.setPageSize(pageSize);
+        pageDto.setPageNumber(pageNumber);
+        pageDto.setElementsNumber(movieDtoList.size());
+        pageDto.setTotalPages(100 / pageSize);
+        pageDto.setTotalElements(100F);
+        pageDto.setContent(movieDtoList);
+        return pageDto;
     }
 
     private void assertMovieDtoFields(MovieDto expectedMovieDto, MovieDto actualMovieDto) {
@@ -141,5 +173,37 @@ class MovieControllerTest {
         verify(movieComponent, times(1)).getMovieById(movieId);
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertMovieDtoFields(expectedMovieDto, actualMovieDto);
+    }
+
+    @Test
+    @SneakyThrows
+    void getMostPopularMoviesListWithNoQueryParams() {
+        int defaultPageSize = 10, defaultPageNumber = 1;
+        MoviesPageDto expectedMoviesPageDto = buildMoviesPageDto(defaultPageSize, defaultPageNumber);
+        when(movieComponent.getMostPopularMoviesList(defaultPageSize, defaultPageNumber)).thenReturn(expectedMoviesPageDto);
+        String requestUrl = "/movies/most-popular-movies";
+        MockHttpServletResponse response = performGetRequest(requestUrl);
+        MoviesPageDto actualMoviesPageDto = responseStringToMoviesPageDto(response.getContentAsString());
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(expectedMoviesPageDto.getPageNumber(), actualMoviesPageDto.getPageNumber());
+    }
+
+    @Test
+    @SneakyThrows
+    void getMostPopularMoviesList() {
+        int pageSize = 5, pageNumber = 1;
+        MoviesPageDto expectedMoviesPageDto = buildMoviesPageDto(pageSize, pageNumber);
+        when(movieComponent.getMostPopularMoviesList(pageSize, pageNumber)).thenReturn(expectedMoviesPageDto);
+        String requestUrl = "/movies/most-popular-movies";
+        LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.put("pageSize", List.of(Integer.toString(pageSize)));
+        queryParams.put("pageNumber", List.of(Integer.toString(pageNumber)));
+
+        MockHttpServletResponse response = performGetRequestWithQueryParams(requestUrl, queryParams);
+        MoviesPageDto actualMoviesPageDto = responseStringToMoviesPageDto(response.getContentAsString());
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(expectedMoviesPageDto.getPageNumber(), actualMoviesPageDto.getPageNumber());
     }
 }

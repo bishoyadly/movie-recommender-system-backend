@@ -35,7 +35,7 @@ class MoviePostgresDataAccessIntegrationTest {
 
     @Test
     void getMostPopularMovies() {
-        PageRequest pageRequest = PageRequest.of(1, 5, Sort.by("popularity").descending());
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("popularity").descending());
         Page<MovieRecord> movieRecordPage = movieRepository.findAll(pageRequest);
         assertNotNull(movieRecordPage);
         assertEquals(pageRequest.getPageNumber(), movieRecordPage.getNumber());

@@ -49,7 +49,7 @@ class MoviePostgresDataAccessTest {
         verify(movieRepository).findAll(argumentCaptor.capture());
         PageRequest actualPageRequest = argumentCaptor.getValue();
         assertEquals(pageSize, actualPageRequest.getPageSize());
-        assertEquals(pageNumber, actualPageRequest.getPageNumber());
+        assertEquals(pageNumber - 1, actualPageRequest.getPageNumber());
         assertEquals("popularity: DESC", actualPageRequest.getSort().toString());
         assertEquals(Sort.Direction.DESC, actualPageRequest.getSort().getOrderFor("popularity").getDirection());
     }

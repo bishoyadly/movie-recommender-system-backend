@@ -6,11 +6,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import recommendersystem.movierecommender.model.MovieDto;
+import recommendersystem.movierecommender.model.MoviesPageDto;
 import recommendersystem.movierecommender.model.ProblemDto;
-import recommendersystem.movierecommender.moviecomponent.usecases.MovieDataUtils;
-import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputBoundary;
-import recommendersystem.movierecommender.moviecomponent.usecases.MovieOutputData;
-import recommendersystem.movierecommender.moviecomponent.usecases.MovieUseCaseErrorMessages;
+import recommendersystem.movierecommender.moviecomponent.usecases.*;
 
 import java.util.UUID;
 
@@ -50,6 +48,18 @@ class MovieApiPresenterTest {
     void setUp() {
         moviePresenterMapper = new MoviePresenterMapperImpl();
         movieOutputBoundary = new MovieApiPresenter(moviePresenterMapper);
+    }
+
+    @Test
+    void presentMoviesPageSuccessResponse() {
+        MoviesPageOutputData moviesPageOutputData = MovieDataUtils.buildMoviesPageOutputData(5, 1);
+        MoviesPageDto moviesPageDto = (MoviesPageDto) movieOutputBoundary.presentMoviesPageSuccessResponse(moviesPageOutputData);
+        assertEquals(moviesPageOutputData.getPageSize(), moviesPageDto.getPageSize());
+        assertEquals(moviesPageOutputData.getPageNumber(), moviesPageDto.getPageNumber());
+        assertEquals(moviesPageOutputData.getElementsNumber(), moviesPageDto.getElementsNumber());
+        assertEquals(moviesPageOutputData.getTotalElements(), moviesPageDto.getTotalElements());
+        assertEquals(moviesPageOutputData.getTotalPages(), moviesPageDto.getTotalPages());
+        assertEquals(moviesPageOutputData.getMoviesOutputDataList().size(), moviesPageDto.getContent().size());
     }
 
     @Test
