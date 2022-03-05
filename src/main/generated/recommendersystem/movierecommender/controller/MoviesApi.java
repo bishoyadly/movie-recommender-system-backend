@@ -46,7 +46,7 @@ public interface MoviesApi {
             value = "/movies/most-popular-movies",
             produces = {"application/json"}
     )
-    default ResponseEntity<MoviesPageDto> getMostPopularMovies(@Min(5) @ApiParam(value = "", defaultValue = "10") @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize, @Min(1) @ApiParam(value = "", defaultValue = "1") @Valid @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber) {
+    default ResponseEntity<Object> getMostPopularMovies(@Min(5) @ApiParam(value = "", defaultValue = "10") @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize, @Min(1) @ApiParam(value = "", defaultValue = "1") @Valid @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

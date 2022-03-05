@@ -27,9 +27,9 @@ public class MovieUseCaseInteractor implements MovieInputBoundary {
 
     @Override
     public Object getMostPopularMoviesList(int pageSize, int pageNumber) {
-        if (invalidPageField(pageSize))
+        if (invalidPageSize(pageSize))
             return presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_SIZE);
-        if (invalidPageField(pageNumber))
+        if (invalidPageNumber(pageNumber))
             return presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_NUMBER);
         MoviesPage moviesPage = movieDataAccess.getMostPopularMoviesList(pageSize, pageNumber);
         return presentMoviesPageOutputDataSuccessResponse(moviesPage);
@@ -44,8 +44,12 @@ public class MovieUseCaseInteractor implements MovieInputBoundary {
     }
 
 
-    private boolean invalidPageField(int pageSize) {
-        return pageSize <= 0;
+    private boolean invalidPageSize(int pageSize) {
+        return pageSize < 5;
+    }
+
+    private boolean invalidPageNumber(int pageNumber) {
+        return pageNumber < 1;
     }
 
     private boolean isValidId(UUID movieId) {

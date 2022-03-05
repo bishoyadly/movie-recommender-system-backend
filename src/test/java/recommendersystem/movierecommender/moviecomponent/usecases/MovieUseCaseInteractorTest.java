@@ -99,11 +99,11 @@ class MovieUseCaseInteractorTest {
 
     @Test
     void getMostPopularMovies_caseInvalidPageSizeOrNumber() {
-        movieInputBoundary.getMostPopularMoviesList(0, 1);
+        movieInputBoundary.getMostPopularMoviesList(4, 1);
         verify(movieDataAccess, times(0)).getMostPopularMoviesList(anyInt(), anyInt());
         verify(movieOutputBoundary, times(1)).presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_SIZE);
 
-        movieInputBoundary.getMostPopularMoviesList(1, 0);
+        movieInputBoundary.getMostPopularMoviesList(5, 0);
         verify(movieDataAccess, times(0)).getMostPopularMoviesList(anyInt(), anyInt());
         verify(movieOutputBoundary, times(1)).presentBadRequestErrorResponse(MovieUseCaseErrorMessages.INVALID_PAGE_NUMBER);
     }

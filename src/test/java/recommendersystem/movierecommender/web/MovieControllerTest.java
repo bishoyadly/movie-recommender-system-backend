@@ -35,6 +35,8 @@ class MovieControllerTest {
 
     private final MockMvc mockMvc;
 
+    private final String API_BASE_PATH = "/api";
+
     @Autowired
     public MovieControllerTest(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
@@ -136,7 +138,7 @@ class MovieControllerTest {
     @Test
     void getMovieById_caseInvalid() {
         String movieId = "invalidId";
-        String requestUrl = String.format("/movies/%s", movieId);
+        String requestUrl = String.format("%s/movies/%s", API_BASE_PATH, movieId);
         MockHttpServletResponse response = performGetRequest(requestUrl);
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
     }
@@ -150,7 +152,7 @@ class MovieControllerTest {
         expectedProblemDto.setErrorMessageDetail(MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
         MovieApiPresenterException exception = new MovieApiPresenterException(HttpStatus.NOT_FOUND, MovieUseCaseErrorMessages.MOVIE_NOT_FOUND);
         when(movieComponent.getMovieById(movieId)).thenThrow(exception);
-        String requestUrl = String.format("/movies/%s", movieId);
+        String requestUrl = String.format("%s/movies/%s", API_BASE_PATH, movieId);
 
         MockHttpServletResponse response = performGetRequest(requestUrl);
         ProblemDto actualProblemDto = responseStringToProblemDto(response.getContentAsString());
@@ -166,7 +168,7 @@ class MovieControllerTest {
         UUID movieId = UUID.randomUUID();
         MovieDto expectedMovieDto = buildMovieDto(movieId);
         when(movieComponent.getMovieById(movieId)).thenReturn(expectedMovieDto);
-        String requestUrl = String.format("/movies/%s", movieId);
+        String requestUrl = String.format("%s/movies/%s", API_BASE_PATH, movieId);
 
         MockHttpServletResponse response = performGetRequest(requestUrl);
         MovieDto actualMovieDto = responseStringToMovieDto(response.getContentAsString());
@@ -181,7 +183,7 @@ class MovieControllerTest {
         int defaultPageSize = 10, defaultPageNumber = 1;
         MoviesPageDto expectedMoviesPageDto = buildMoviesPageDto(defaultPageSize, defaultPageNumber);
         when(movieComponent.getMostPopularMoviesList(defaultPageSize, defaultPageNumber)).thenReturn(expectedMoviesPageDto);
-        String requestUrl = "/movies/most-popular-movies";
+        String requestUrl = String.format("%s/movies/most-popular-movies", API_BASE_PATH);
         MockHttpServletResponse response = performGetRequest(requestUrl);
         MoviesPageDto actualMoviesPageDto = responseStringToMoviesPageDto(response.getContentAsString());
 
@@ -195,7 +197,7 @@ class MovieControllerTest {
         int pageSize = 5, pageNumber = 1;
         MoviesPageDto expectedMoviesPageDto = buildMoviesPageDto(pageSize, pageNumber);
         when(movieComponent.getMostPopularMoviesList(pageSize, pageNumber)).thenReturn(expectedMoviesPageDto);
-        String requestUrl = "/movies/most-popular-movies";
+        String requestUrl = String.format("%s/movies/most-popular-movies", API_BASE_PATH);
         LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.put("pageSize", List.of(Integer.toString(pageSize)));
         queryParams.put("pageNumber", List.of(Integer.toString(pageNumber)));
