@@ -12,6 +12,15 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
+  - url: https://{domainName}/{basePath}
+    description: Remote Host
+    variables:
+      domainName:
+        default: remoteHost.com
+      basePath:
+        enum:
+          - 'api/'
+        default: 'api/'
   - url: http://{domainName}:{port}/{basePath}
     description: localhost
     variables:
