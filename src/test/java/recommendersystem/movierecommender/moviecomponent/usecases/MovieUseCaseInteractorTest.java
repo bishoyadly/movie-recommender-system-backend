@@ -44,10 +44,10 @@ class MovieUseCaseInteractorTest {
     }
 
     private void assertMoviesPageOutputDataFields(MoviesPageOutputData expectedPage, MoviesPageOutputData actualPage) {
-        assertEquals(expectedPage.getRecordsCount(), actualPage.getRecordsCount());
+        assertEquals(expectedPage.getElementsNumber(), actualPage.getElementsNumber());
         assertEquals(expectedPage.getPageNumber(), actualPage.getPageNumber());
         assertEquals(expectedPage.getPageSize(), actualPage.getPageSize());
-        assertEquals(expectedPage.getMovieOutputDataList().size(), actualPage.getMovieOutputDataList().size());
+        assertEquals(expectedPage.getMoviesOutputDataList().size(), actualPage.getMoviesOutputDataList().size());
     }
 
     @BeforeEach
@@ -86,7 +86,7 @@ class MovieUseCaseInteractorTest {
     void getMovieById_caseMovieExisted() {
         UUID movieId = UUID.randomUUID();
         Movie expectedMovie = MovieDataUtils.buildMovie(movieId);
-        MovieOutputData expectedMovieOutputData = MovieDataUtils.buildMovieOutputData(movieId);
+        MovieOutputData expectedMovieOutputData = MovieDataUtils.buildMovieOutputDataFromMovie(expectedMovie);
         when(movieDataAccess.getMovieById(movieId)).thenReturn(expectedMovie);
         when(movieOutputBoundary.presentMovieSuccessResponse(any(MovieOutputData.class))).thenReturn(expectedMovieOutputData);
 
@@ -95,7 +95,6 @@ class MovieUseCaseInteractorTest {
         verify(movieDataAccess, times(1)).getMovieById(movieId);
         assertMovieResponse(expectedMovieOutputData, actualMovieOutputData);
     }
-
 
 
     @Test
@@ -113,9 +112,9 @@ class MovieUseCaseInteractorTest {
     void getMostPopularMovies_caseNoMoviesExist() {
         int pageSize = 5, pageNumber = 1;
         MoviesPage moviesPage = new MoviesPage();
-        moviesPage.setMovieList(new ArrayList<>());
+        moviesPage.setMoviesList(new ArrayList<>());
         MoviesPageOutputData expectedPage = new MoviesPageOutputData();
-        expectedPage.setMovieOutputDataList(new ArrayList<>());
+        expectedPage.setMoviesOutputDataList(new ArrayList<>());
         when(movieDataAccess.getMostPopularMoviesList(pageSize, pageNumber)).thenReturn(moviesPage);
         when(movieOutputBoundary.presentMoviesPageSuccessResponse(any(MoviesPageOutputData.class))).thenReturn(expectedPage);
 
@@ -130,7 +129,7 @@ class MovieUseCaseInteractorTest {
     void getMostPopularMovies_caseMoviesExist() {
         int pageSize = 5, pageNumber = 1;
         MoviesPage moviesPage = MovieDataUtils.buildMoviesPage(pageSize, pageNumber);
-        MoviesPageOutputData expectedPage = MovieDataUtils.buildMoviesPageOutputData(pageSize, pageNumber);
+        MoviesPageOutputData expectedPage = MovieDataUtils.buildMoviesPageOutputDataFromMoviesPage(moviesPage);
         when(movieDataAccess.getMostPopularMoviesList(pageSize, pageNumber)).thenReturn(moviesPage);
         when(movieOutputBoundary.presentMoviesPageSuccessResponse(any(MoviesPageOutputData.class))).thenReturn(expectedPage);
 

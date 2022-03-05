@@ -1,14 +1,28 @@
 package recommendersystem.movierecommender.moviecomponent.adapters;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import recommendersystem.movierecommender.moviecomponent.entities.Genre;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
+import recommendersystem.movierecommender.moviecomponent.entities.MoviesPage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 class MovieRecordFactory {
+
+    public static Page<MovieRecord> buildRecordsPageFromMoviesPage(MoviesPage moviesPage) {
+        List<MovieRecord> recordsList = new LinkedList<>();
+        for (Movie movie : moviesPage.getMoviesList()) {
+            MovieRecord record = buildMovieRecordFromMovie(movie);
+            recordsList.add(record);
+        }
+        return new PageImpl<>(recordsList, PageRequest.of(moviesPage.getPageNumber(), moviesPage.getPageSize()), moviesPage.getTotalElements());
+    }
 
     public static MovieRecord buildMovieRecord(UUID movieId) {
         MovieRecord movieRecord = new MovieRecord();

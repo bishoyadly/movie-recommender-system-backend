@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 interface MovieRecordMapper {
 
+    List<Movie> recordsListToMovieList(List<MovieRecord> recordsList);
+
     @Mapping(target = "ratingsCount", source = "voteCount")
     @Mapping(target = "rating", source = "voteAverage")
     @Mapping(target = "imageUrl", source = "movieImgUrl")

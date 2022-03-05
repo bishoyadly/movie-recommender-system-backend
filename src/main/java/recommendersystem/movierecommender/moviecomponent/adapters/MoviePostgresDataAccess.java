@@ -1,5 +1,8 @@
 package recommendersystem.movierecommender.moviecomponent.adapters;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import recommendersystem.movierecommender.moviecomponent.entities.Movie;
 import recommendersystem.movierecommender.moviecomponent.entities.MoviesPage;
@@ -29,6 +32,14 @@ class MoviePostgresDataAccess implements MovieDataAccess {
 
     @Override
     public MoviesPage getMostPopularMoviesList(int pageSize, int pageNumber) {
-        return null;
+        Page<MovieRecord> recordsPage = movieRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("popularity").descending()));
+        MoviesPage moviesPage = new MoviesPage();
+        moviesPage.setPageSize(pageSize);
+        moviesPage.setPageNumber(pageNumber);
+        moviesPage.setElementsNumber(recordsPage.getNumberOfElements());
+        moviesPage.setMoviesList(movieRecordMapper.recordsListToMovieList(recordsPage.getContent()));
+        moviesPage.setTotalElements(recordsPage.getTotalElements());
+        moviesPage.setTotalPages(recordsPage.getTotalPages());
+        return moviesPage;
     }
 }

@@ -9,6 +9,6 @@ import recommendersystem.movierecommender.moviecomponent.entities.MoviesPage;
 public interface MovieMapper {
     MovieOutputData movieToMovieOutputData(Movie movie);
 
-    @Mapping(target = "movieOutputDataList", source = "movieList")
+    @Mapping(target = "moviesOutputDataList", source = "moviesList")
     MoviesPageOutputData moviesPageToMoviesPageOutputData(MoviesPage movie);
 }

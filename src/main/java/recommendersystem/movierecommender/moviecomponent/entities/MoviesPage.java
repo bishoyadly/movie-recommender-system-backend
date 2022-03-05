@@ -8,8 +8,10 @@ import java.util.List;
 @Getter
 @Setter
 public class MoviesPage {
-    int recordsCount;
-    int pageNumber;
     int pageSize;
-    List<Movie> movieList;
+    int pageNumber;
+    int elementsNumber;
+    List<Movie> moviesList;
+    long totalElements;
+    int totalPages;
 }

@@ -8,8 +8,10 @@ import java.util.List;
 @Getter
 @Setter
 public class MoviesPageOutputData {
-    private int recordsCount;
     private int pageSize;
     private int pageNumber;
-    private List<MovieOutputData> movieOutputDataList;
+    private int elementsNumber;
+    private List<MovieOutputData> moviesOutputDataList;
+    long totalElements;
+    int totalPages;
 }
