@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/recommender_system_db
-    username: bishoy
-    password: 12345
+    url: jdbc:${DATABASE_URL:postgresql://localhost:5432/recommender_system_db}
+    username: ${DATABASE_USERNAME:bishoy}
+    password: ${DATABASE_PASSWORD:12345}
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 120000
